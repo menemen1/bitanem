@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bitanem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:     #c8526e;
+      --rose-lt:  #f2dde3;
+      --rose-mid: #e8a0b0;
+      --cream:    #fdf7f4;
+      --ink:      #2a1a20;
+      --ink-muted:#8a6070;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans:  'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, #fce8ee 0%, var(--cream) 70%);
+      z-index: 0;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(72px, 14vw, 130px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 0.9;
+      color: var(--ink);
+      position: relative;
+      z-index: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-title span { color: var(--rose); }
+
+    .hero-sub {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-style: italic;
+      color: var(--ink-muted);
+      margin-top: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--rose-mid);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 32px;
+      background: var(--rose-mid);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── SAYAÇ ── */
+    #counter {
+      background: white;
+      padding: 4rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--rose-lt);
+      border-bottom: 1px solid var(--rose-lt);
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 2.5rem;
+    }
+
+    .counters-grid {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .count-item {
+      flex: 1;
+      padding: 1rem 0.5rem;
+      border-right: 1px solid var(--rose-lt);
+    }
+
+    .count-item:last-child { border-right: none; }
+
+    .count-num {
+      font-family: var(--serif);
+      font-size: clamp(40px, 7vw, 64px);
+      font-weight: 300;
+      color: var(--rose);
+      line-height: 1;
+      display: block;
+    }
+
+    .count-lbl {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-top: 6px;
+    }
+
+    .bday-row {
+      margin-top: 2rem;
+      font-family: var(--serif);
+      font-size: 22px;
+      font-style: italic;
+      color: var(--rose);
+    }
+
+    /* ── SECTIONS WRAPPER ── */
+    .sections {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .block {
+      padding: 5rem 0;
+      border-bottom: 1px solid var(--rose-lt);
+    }
+
+    .block:last-child { border-bottom: none; }
+
+    .block-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 2rem;
+    }
+
+    /* ── POLAROİD ── */
+    .polaroid-scene {
+      position: relative;
+      width: 100%;
+    }
+
+    /* tek fotoğraf tam genişlik ortada */
+    .pol-solo {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    /* ikili yan yana ama biraz kaotik */
+    .pol-duo {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+      align-items: flex-end;
+    }
+
+    /* üçlü saçılmış */
+    .pol-trio {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      align-items: center;
+    }
+
+    .polaroid {
+      background: white;
+      padding: 10px 10px 32px 10px;
+      box-shadow: 2px 4px 18px rgba(42,26,32,0.10);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .polaroid img {
+      display: block;
+      object-fit: cover;
+    }
+
+    .polaroid .pol-caption {
+      font-family: var(--serif);
+      font-size: 13px;
+      font-style: italic;
+      color: var(--ink-muted);
+      text-align: center;
+      margin-top: 8px;
+      line-height: 1.3;
+    }
+
+   
+    .pol-lg img  { width: 280px; height: 320px; }
+    .pol-md img  { width: 200px; height: 230px; }
+    .pol-sm img  { width: 155px; height: 175px; }
+
+    
+    .rot-l2  { transform: rotate(-2deg); }
+    .rot-l4  { transform: rotate(-4deg); }
+    .rot-l6  { transform: rotate(-6deg); }
+    .rot-r2  { transform: rotate(2deg); }
+    .rot-r4  { transform: rotate(4deg); }
+    .rot-r5  { transform: rotate(5deg); }
+    .rot-r7  { transform: rotate(7deg); }
+
+   
+    .timeline {
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: var(--rose-lt);
+    }
+
+    .tl-item {
+      position: relative;
+      padding-bottom: 2.5rem;
+    }
+
+    .tl-item:last-child { padding-bottom: 0; }
+
+    .tl-dot {
+      position: absolute;
+      left: -1.5rem;
+      top: 7px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--rose);
+      transform: translateX(-4px);
+    }
+
+    .tl-date {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rose-mid);
+      margin-bottom: 4px;
+    }
+
+    .tl-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .tl-desc {
+      font-size: 14px;
+      color: var(--ink-muted);
+      margin-top: 4px;
+    }
+
+    
+    .letter {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--ink);
+      max-width: 580px;
+    }
+
+    .letter p + p { margin-top: 1.2em; }
+
+    .letter .salutation {
+      font-style: italic;
+      font-size: 24px;
+      color: var(--rose);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .letter .sign {
+      margin-top: 2rem;
+      font-style: italic;
+      color: var(--ink-muted);
+    }
+
+   
+    .playlist {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .track {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+
+    .track:hover { background: white; }
+
+    .track-num {
+      font-family: var(--serif);
+      font-size: 18px;
+      color: var(--rose-mid);
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .track-info { flex: 1; overflow: hidden; }
+
+    .track-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .track-artist {
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-top: 1px;
+    }
+
+    .track-dur {
+      font-size: 12px;
+      color: var(--ink-muted);
+      flex-shrink: 0;
+    }
+
+    /* ── QUIZ ── */
+    #quiz-wrap { max-width: 560px; }
+
+    .quiz-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-bar-bg {
+      flex: 1;
+      height: 2px;
+      background: var(--rose-lt);
+      margin-right: 1rem;
+      border-radius: 1px;
+    }
+
+    .quiz-bar-fill {
+      height: 100%;
+      background: var(--rose);
+      border-radius: 1px;
+      transition: width 0.3s ease;
+    }
+
+    .quiz-step {
+      font-size: 12px;
+      color: var(--ink-muted);
+      white-space: nowrap;
+    }
+
+    .quiz-question {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 1.5rem;
+      color: var(--ink);
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .quiz-opt {
+      padding: 12px 16px;
+      border: 1px solid var(--rose-lt);
+      border-radius: 4px;
+      background: white;
+      font-size: 14px;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      font-family: var(--sans);
+    }
+
+    .quiz-opt:hover:not(:disabled) {
+      border-color: var(--rose);
+      background: var(--rose-lt);
+    }
+
+    .quiz-opt.correct { border-color: #6baa7a; background: #edf7f0; color: #2e6640; }
+    .quiz-opt.wrong   { border-color: #c8526e; background: #fce8ee; color: #8a2038; }
+
+    .quiz-feedback {
+      margin-top: 1rem;
+      font-family: var(--serif);
+      font-size: 17px;
+      font-style: italic;
+      color: var(--ink-muted);
+      min-height: 26px;
+    }
+
+    .quiz-result-screen {
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .quiz-score-big {
+      font-family: var(--serif);
+      font-size: 72px;
+      font-weight: 300;
+      color: var(--rose);
+      line-height: 1;
+    }
+
+    .quiz-score-sub {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-style: italic;
+      color: var(--ink-muted);
+      margin-top: 0.5rem;
+    }
+
+    .quiz-retry {
+      margin-top: 2rem;
+      padding: 10px 28px;
+      border: 1px solid var(--rose);
+      border-radius: 4px;
+      background: transparent;
+      color: var(--rose);
+      font-family: var(--sans);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .quiz-retry:hover { background: var(--rose); color: white; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: white;
+      border-top: 1px solid var(--rose-lt);
+    }
+
+    .footer-title {
+      font-family: var(--serif);
+      font-size: clamp(36px, 7vw, 60px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--rose);
+      margin-bottom: 1rem;
+    }
+
+    .footer-sub {
+      font-size: 13px;
+      color: var(--ink-muted);
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 540px) {
+      .pol-lg img { width: 200px; height: 230px; }
+      .pol-md img { width: 150px; height: 175px; }
+      .pol-sm img { width: 120px; height: 140px; }
+      .pol-trio   { gap: 0.5rem; }
+      .quiz-options { grid-template-columns: 1fr; }
+      .counters-grid { flex-wrap: wrap; }
+      .count-item { min-width: 45%; border-right: none; border-bottom: 1px solid var(--rose-lt); }
+      .count-item:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section id="hero">
+    <p class="hero-eyebrow">senin için</p>
+    <h1 class="hero-title">bita<span>nem</span></h1>
+    <p class="hero-sub">Peyker</p>
+    <div class="scroll-hint">aşağı</div>
+  </section>
+
+  <!-- SAYAÇ -->
+  <section id="counter">
+    <p class="section-label">birlikte geçen zaman</p>
+    <div class="counters-grid">
+      <div class="count-item">
+        <span class="count-num" id="c-gun">—</span>
+        <div class="count-lbl">gün</div>
+      </div>
+      <div class="count-item">
+        <span class="count-num" id="c-saat">—</span>
+        <div class="count-lbl">saat</div>
+      </div>
+      <div class="count-item">
+        <span class="count-num" id="c-dak">—</span>
+        <div class="count-lbl">dakika</div>
+      </div>
+      <div class="count-item">
+        <span class="count-num" id="c-san">—</span>
+        <div class="count-lbl">saniye</div>
+      </div>
+    </div>
+    <p class="bday-row" id="bday-row"></p>
+  </section>
+
+  <div class="sections">
+
+    <div class="block" style="padding-top:3.5rem;padding-bottom:3.5rem;border-bottom:none;">
+      <div class="pol-solo">
+        <div class="polaroid pol-lg rot-l2">
+          <img src="assets/photos/photo1.jpg" alt="" />
+          <div class="pol-caption">ilk anlarddan biri</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="block">
+      <p class="block-label">anlarımız</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">30 Mayıs 2025</div>
+          <div class="tl-title">İlk kez tanıştık</div>
+          <div class="tl-desc">Her şeyin başladığı gün.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">23 Haziran 2025</div>
+          <div class="tl-title">Doğum günün</div>
+          <div class="tl-desc">Dünyaya geldiğin için minnettarım.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--rose);box-shadow:0 0 0 3px var(--rose-lt);"></div>
+          <div class="tl-date">7 Temmuz 2025</div>
+          <div class="tl-title">Resmi olarak birlikte olduk</div>
+          <div class="tl-desc">Fiziksel olarak ayrılsakta kalplerimiz hiçbir zaman ayrılmadı.</div>
+        </div>
+        
+        <!-- Yeni an eklemek için tl-item bloğunu kopyala -->
+      </div>
+    </div>
+
+    <!-- POLAROİD GRUP 2 — timeline'dan sonra ikili -->
+    <div class="block" style="padding-top:3rem;padding-bottom:3rem;border-bottom:none;">
+      <div class="pol-duo">
+        <div class="polaroid pol-md rot-l4">
+          <img src="assets/photos/photo2.jpg" alt="" />
+          <div class="pol-caption">seninle</div>
+        </div>
+        <div class="polaroid pol-md rot-r5">
+          <img src="assets/photos/photo3.jpg" alt="" />
+          <div class="pol-caption">her an</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEKTUP -->
+    <div class="block">
+      <p class="block-label">sana mektup</p>
+      <div class="letter">
+        <span class="salutation">Peykerim,</span>
+        <p>
+          Sevgilim, kalbim. Gönül isterdi ki senin önüne hediye olarak dünyaları sereyim, ama malum elimden bunlar geliyor(şuanlık). Birlikte geçirdiğimiz her dakika keyif alıyorum; bir şeyler yapsakta, öyle sessizce otursakta beraber olduğumuz için benim için dünyalara değer.
+        </p>
+        <p>
+          Gözlerine kadar gülümsemen, kokun, yanağının üstündeki o minik ben, anlattıklarımı dinlerken yaptığın o minik kaş hareketin...Hepsi için kurşun atar kurşun yerim o derece seviyorum seni.
+        </p>
+        <p>
+          Bazen birbirimize kızsakta, sinir olsakta; araya haksızlık, saygısızlık girmediği sürece her şeyin ama herşeyin üstesinden geleceğimize olan inancım tam. Bu site sana, çünkü sen en az senin kadar özel bir hediye hak ediyorsun.
+        </p>
+        <div class="sign">— hep beraber</div>
+      </div>
+    </div>
+
+    <!-- POLAROİD GRUP 3 — mektuptan sonra üçlü saçılmış -->
+    <div class="block" style="padding-top:3rem;padding-bottom:3rem;border-bottom:none;">
+      <div class="pol-trio">
+        <div class="polaroid pol-sm rot-l6">
+          <img src="assets/photos/photo4.jpg" alt="" />
+        </div>
+        <div class="polaroid pol-md rot-r2" style="margin-bottom:1.5rem;">
+          <img src="assets/photos/photo5.jpg" alt="" />
+          <div class="pol-caption">favorim</div>
+        </div>
+        <div class="polaroid pol-sm rot-r7">
+          <img src="assets/photos/photo6.jpg" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- PLAYLİST -->
+    <div class="block">
+      <p class="block-label">şarkılarımız</p>
+      <div class="playlist">
+        <!-- Şarkı dosyalarını assets/music/ klasörüne ekle, isim/sanatçı/süre bilgilerini güncelle -->
+        <div class="track">
+          <span class="track-num">1</span>
+            <img src="assets/music/sarki1.jpg" style="width:44px;height:44px;border-radius:3px;object-fit:cover;flex-shrink:0;" />
+          <div class="track-info">
+            <div class="track-name">Re</div>
+            <div class="track-artist">Mor ve Ötesi</div>
+          </div>
+          <span class="track-dur">3:39</span>
+        </div>
+        <div class="track">
+          <span class="track-num">2</span>
+           <img src="assets/music/sarki2.jpg" style="width:44px;height:44px;border-radius:3px;object-fit:cover;flex-shrink:0;" />
+          <div class="track-info">
+            <div class="track-name">Beni Rahatta Dinleyin</div>
+            <div class="track-artist">Sanatçı Adı</div>
+          </div>
+          <span class="track-dur">4:51</span>
+        </div>
+        <div class="track">
+          <span class="track-num">3</span>
+           <img src="assets/music/sarki3.jpg" style="width:44px;height:44px;border-radius:3px;object-fit:cover;flex-shrink:0;" />
+          <div class="track-info">
+            <div class="track-name">Adsız</div>
+            <div class="track-artist">Cem Karaca</div>
+          </div>
+          <span class="track-dur">3:40</span>
+        </div>
+        <!-- Yeni şarkı eklemek için .track bloğunu kopyala -->
+      </div>
+    </div>
+
+    <!-- POLAROİD GRUP 4 — playlistten sonra son tek foto -->
+    <div class="block" style="padding-top:3rem;padding-bottom:1rem;border-bottom:none;">
+      <div class="pol-solo">
+        <div class="polaroid pol-lg rot-r4">
+          <img src="assets/photos/photo7.jpg" alt="" />
+          <div class="pol-caption">ve daha nicesi...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="block">
+      <p class="block-label">bizi ne kadar tanıyorsun?</p>
+      <div id="quiz-wrap">
+        <div id="quiz-inner"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-title">Peyker</div>
+    <p class="footer-sub">seninle her gün daha güzel &nbsp;✦</p>
+  </footer>
+
+  <script>
+     // ── SAYAÇ ──
+    const togetherDate = new Date('2025-07-07T00:00:00');
+    const breakupStart = new Date('2025-08-30T00:00:00');
+    const breakupEnd   = new Date('2026-03-13T00:00:00');
+    const breakupMs    = breakupEnd - breakupStart; // çıkarılacak süre
+ 
+    function updateCounter() {
+      const now  = new Date();
+      if (now < togetherDate) return;
+ 
+      // Ayrılık dönemini toplam süreden çıkar
+      let diff = now - togetherDate;
+      if (now >= breakupStart) {
+        const overlapEnd = now < breakupEnd ? now : breakupEnd;
+        diff -= (overlapEnd - breakupStart);
+      }
+      if (diff < 0) diff = 0;
+ 
+      const totalSec = Math.floor(diff / 1000);
+      const gun  = Math.floor(totalSec / 86400);
+      const saat = Math.floor((totalSec % 86400) / 3600);
+      const dak  = Math.floor((totalSec % 3600)  / 60);
+      const san  = totalSec % 60;
+ 
+      document.getElementById('c-gun').textContent  = gun;
+      document.getElementById('c-saat').textContent = String(saat).padStart(2,'0');
+      document.getElementById('c-dak').textContent  = String(dak).padStart(2,'0');
+      document.getElementById('c-san').textContent  = String(san).padStart(2,'0');
+
+      // Doğum günü bugünse göster, değilse boş bırak
+      const today = now.toISOString().slice(5,10); // "MM-DD"
+      document.getElementById('bday-row').innerHTML =
+        today === '06-23' ? 'iyi ki doğdun sevgilim 🎂' : '';
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+
+    // ── QUIZ ──
+    const questions = [
+      {
+        q: "En sevdiğimiz renk ne?",
+        opts: ["Lila", "Mavi/Lacivert", "Fuşya", "Kırmızı"],
+        ans: 1,
+        fb: "Her rengi seversin tabii.. Ama ben laciverti çok seviyorum"
+      },
+      {
+        q: "Benim peykerde en çok sevdiğim şey",
+        opts: ["Gözleri", "Gülüşü", "Saçları", "Takıları"],
+        ans: 1,
+        fb: "Senin her zerrene kurban olurum ama gülüşün çok ayrı"
+      },
+      {
+        q: "Resmi olarak birlikte olduğumuz tarih?",
+        opts: ["30 Mayıs", "23 Haziran", "7 Temmuz", "15 Temmuz"],
+        ans: 2,
+        fb: "7 Temmuz 2025 aldığım en güzel karar."
+      },
+      {
+        q: "Benim en sevdiğim yemek",
+        opts: ["Sarma", "Libye", "Tepsi Et", "İskender"],
+        ans: 2,
+        fb: "Hepsi çok güzel ama en çok tepsi et."
+      },
+      {
+        q: "Seni bu dünyada en çok kim sever?",
+        opts: ["Ben tabii ki", "Eymen Bulanık", "Ecrin🤮", "Eymen dışında herhangi biri"],
+        ans: 1,
+        fb: "Ben sana şarkıyı mı soruyorum? İsim soruyorum."
+      }
+    ];
+
+    let qIdx = 0, score = 0, answered = false;
+
+    function renderQuiz() {
+      const wrap = document.getElementById('quiz-inner');
+
+      if (qIdx >= questions.length) {
+        const msgs = [
+          "Biraz daha dikkatli ol...",
+          "Fena değil, geliştirilebilir.",
+          "İyi iş çıkardın!",
+          "Çok iyisin!",
+          "Mükemmel, her şeyi biliyorsun!"
+        ];
+        wrap.innerHTML =
+          '<div class="quiz-result-screen">' +
+            '<div class="quiz-score-big">' + score +
+              '<span style="font-size:36px;color:var(--ink-muted);">/' + questions.length + '</span>' +
+            '</div>' +
+            '<div class="quiz-score-sub">' + msgs[score] + '</div>' +
+            '<button class="quiz-retry" onclick="qIdx=0;score=0;answered=false;renderQuiz()">tekrar dene</button>' +
+          '</div>';
+        return;
+      }
+
+      const q   = questions[qIdx];
+      const pct = (qIdx / questions.length) * 100;
+
+      wrap.innerHTML =
+        '<div class="quiz-meta">' +
+          '<div class="quiz-bar-bg"><div class="quiz-bar-fill" style="width:' + pct + '%"></div></div>' +
+          '<span class="quiz-step">' + (qIdx + 1) + ' / ' + questions.length + '</span>' +
+        '</div>' +
+        '<div class="quiz-question">' + q.q + '</div>' +
+        '<div class="quiz-options" id="qopts"></div>' +
+        '<div class="quiz-feedback" id="qfb"></div>';
+
+      const optsEl = document.getElementById('qopts');
+      q.opts.forEach(function(o, i) {
+        const btn = document.createElement('button');
+        btn.className   = 'quiz-opt';
+        btn.textContent = o;
+        btn.onclick = function() {
+          if (answered) return;
+          answered = true;
+          const btns = optsEl.querySelectorAll('.quiz-opt');
+          btns.forEach(function(b) { b.disabled = true; });
+          if (i === q.ans) {
+            btn.classList.add('correct');
+            score++;
+            document.getElementById('qfb').textContent = '✓ ' + q.fb;
+          } else {
+            btn.classList.add('wrong');
+            btns[q.ans].classList.add('correct');
+            document.getElementById('qfb').textContent = q.fb;
+          }
+          setTimeout(function() { qIdx++; answered = false; renderQuiz(); }, 1800);
+        };
+        optsEl.appendChild(btn);
+      });
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
