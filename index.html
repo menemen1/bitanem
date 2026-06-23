@@ -848,26 +848,27 @@
       Söylemek isteyip çekindiğin bir şey varsa buraya bırakabilirsin. (herhangi itiraf etmek istediğin bişey)
     </div>
 
-    <form name="itiraf-kutusu" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="confession-form">
-      <input type="hidden" name="form-name" value="itiraf-kutusu" />
+  <form name="itiraf-kutusu" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="confession-form" id="confession-form">
+  <input type="hidden" name="form-name" value="itiraf-kutusu" />
 
-      <p style="display:none;">
-        <label>Boş bırak: <input name="bot-field" /></label>
-      </p>
+  <p style="display:none;">
+    <label>Boş bırak: <input name="bot-field" /></label>
+  </p>
 
-      <textarea
-        class="confession-textarea"
-        name="itiraf"
-        placeholder="Buraya yaz..."
-        required
-      ></textarea>
+  <textarea
+    class="confession-textarea"
+    name="itiraf"
+    id="confession-textarea"
+    placeholder="Buraya yaz..."
+    required
+  ></textarea>
 
-      <button type="submit" class="confession-btn">gönder</button>
-    </form>
+  <button type="submit" class="confession-btn" id="confession-btn">gönder</button>
+</form>
 
-    <div class="confession-small">
-      Yazdığın şey burada görünmez. Sadece ben görürüm.
-    </div>
+<div class="confession-small" id="confession-status">
+  Yazdığın şey burada görünmez.
+</div>
   </div>
 </div>
   </div>
@@ -1092,6 +1093,53 @@
     }
 
     renderDailyTask();
+
+
+    // ── İTİRAF KUTUSU / NETLIFY FORMS AJAX ──
+const confessionForm = document.getElementById('confession-form');
+const confessionTextarea = document.getElementById('confession-textarea');
+const confessionStatus = document.getElementById('confession-status');
+const confessionBtn = document.getElementById('confession-btn');
+
+function encodeFormData(data) {
+  return new URLSearchParams(data).toString();
+}
+
+if (confessionForm) {
+  confessionForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    confessionBtn.disabled = true;
+    confessionBtn.textContent = 'gönderiliyor...';
+    confessionStatus.textContent = 'Bir saniye, kutuya bırakılıyor.';
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encodeFormData(new FormData(confessionForm))
+    })
+    .then(function(response) {
+      if (!response.ok) {
+        throw new Error('Form gönderilemedi.');
+      }
+
+      confessionTextarea.value = '';
+      confessionStatus.textContent = 'Gönderildi. Burada görünmeyecek.';
+      confessionBtn.textContent = 'gönderildi';
+
+      setTimeout(function() {
+        confessionBtn.disabled = false;
+        confessionBtn.textContent = 'gönder';
+        confessionStatus.textContent = 'Yazdığın şey burada görünmez.';
+      }, 2500);
+    })
+    .catch(function(error) {
+      confessionStatus.textContent = 'Bir şey ters gitti. Birazdan tekrar dene.';
+      confessionBtn.disabled = false;
+      confessionBtn.textContent = 'gönder';
+    });
+  });
+}
 
   </script>
 </body>
