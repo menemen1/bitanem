@@ -653,7 +653,38 @@
   font-style: italic;
 }
 
+/* ── GÜNÜN FIKRASI ── */
+.daily-joke-card {
+  background: white;
+  border: 1px solid var(--rose-lt);
+  border-radius: 6px;
+  padding: 1.4rem 1.5rem;
+  box-shadow: 2px 4px 18px rgba(42,26,32,0.05);
+}
 
+.daily-joke-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rose-mid);
+  margin-bottom: 0.7rem;
+}
+
+.daily-joke-text {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ink);
+  white-space: pre-line;
+}
+
+.daily-joke-note {
+  margin-top: 0.9rem;
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
 
   </style>
 </head>
@@ -822,6 +853,17 @@
         <div class="daily-task-note" id="daily-task-note">Bu görev sadece siteye giren güzel kızlara çıkar.</div>
       </div>
     </div>
+
+    <!-- GÜNÜN FIKRASI -->
+<div class="block">
+  <p class="block-label">günün fıkrası</p>
+
+  <div class="daily-joke-card">
+    <div class="daily-joke-eyebrow">temel & dursun arşivi</div>
+    <div class="daily-joke-text" id="daily-joke-text">—</div>
+    <div class="daily-joke-note" id="daily-joke-note">Bu fıkra günlük olarak değişir.</div>
+  </div>
+</div>
     <!-- POLAROİD GRUP 4 — playlistten sonra son tek foto -->
     <div class="block" style="padding-top:3rem;padding-bottom:1rem;border-bottom:none;">
       <div class="pol-solo">
@@ -1149,6 +1191,147 @@ if (confessionForm) {
     });
   });
 }
+
+// ── GÜNÜN FIKRASI ──
+const dailyJokes = [
+  {
+    text: "Temel bir sabah uyanmış.\nDişlerini fırçalamış, kahvaltısını yapmış, işe gitmiş.\nAkşam eve dönmüş, Fadime’yle biraz oturmuş.\nSonra uyumuş.",
+    note: "Olay bu."
+  },
+  {
+    text: "Temel uçağa binmiş. Yanında İngiliz, Fransız ve Alman varmış.\nİngiliz Temel’e dönüp “Hello sir, where are you from?” demiş.\nTemel hiçbir şey dememiş.\nÇünkü İngilizce bilmiyormuş.",
+    note: "Dil bariyeri."
+  },
+  {
+    text: "Temel uçağa binmiş. Uçakta İngiliz, Fransız ve Alman oturuyormuş.\nTemel onları görünce “gene mi siz?” demiş.",
+    note: "Devamlı kadro."
+  },
+  {
+    text: "Temel kahveye gitmiş. Dursun da oradaymış.\nTemel çay söylemiş.\nDursun da çay söylemiş.\nİkisi de çaylarını içmiş.",
+    note: "Kahvede yaşananlar."
+  },
+  {
+    text: "Temel doktora gitmiş.\nDoktor “şikayetin nedir?” diye sormuş.\nTemel “bir şeyim yok, kontrol için geldim” demiş.\nDoktor kontrol etmiş.\nBir şeyi yokmuş.",
+    note: "Sağlık önemli."
+  },
+  {
+    text: "Temel pazara gitmiş.\nDomates almış, salatalık almış, eve dönmüş.\nFadime salata yapmış.\nSalata güzel olmuş.",
+    note: "Günün gelişmesi."
+  },
+  {
+    text: "Temel otobüse binmiş.\nBoş yer varmış.\nOturmuş.\nGideceği durağa gelince inmiş.",
+    note: "Toplu taşıma deneyimi."
+  },
+  {
+    text: "Temel bir gün balık tutmaya gitmiş.\nOltasını atmış.\nBir süre beklemiş.\nBalık gelmemiş.\nO da eve dönmüş.",
+    note: "Balık yok."
+  },
+  {
+    text: "Temel restorana gitmiş.\nGarson menüyü getirmiş.\nTemel menüye bakmış.\nKuru fasulye söylemiş.\nYemeğini yemiş, hesabı ödemiş.",
+    note: "Restoran süreci."
+  },
+  {
+    text: "Temel sınava girmiş.\nSoruları okumuş.\nBildiklerini yapmış, bilmediklerini boş bırakmış.\nSınav bitince çıkmış.",
+    note: "Akademik yaklaşım."
+  },
+  {
+    text: "Temel sabah işe geç kalmış.\nPatronu neden geç kaldığını sormuş.\nTemel “geç çıktım” demiş.\nPatron “tamam” demiş.",
+    note: "Sebep-sonuç."
+  },
+  {
+    text: "Temel bir gün aynaya bakmış.\nKendisini görmüş.\nSaçını düzeltmiş.\nSonra odadan çıkmış.",
+    note: "Ayna işlevini yerine getirdi."
+  },
+  {
+    text: "Temel telefon almış.\nTelefonu açmış.\nÇalışıyormuş.\nŞarja takmış.\nŞarj olmuş.",
+    note: "Teknoloji."
+  },
+  {
+    text: "Dursun Temel’e “hava bugün güzel” demiş.\nTemel dışarı bakmış.\nHava gerçekten güzelmiş.\n“Evet” demiş.",
+    note: "Meteorolojik doğrulama."
+  },
+  {
+    text: "Temel sinemaya gitmiş.\nBilet almış.\nFilmi izlemiş.\nFilm bitince çıkmış.\nEve giderken filmi düşünmüş.",
+    note: "Sinema sonrası."
+  },
+  {
+    text: "Temel bakkala gitmiş.\nEkmek istemiş.\nBakkal ekmeği vermiş.\nTemel parasını ödemiş.\nEve dönmüş.",
+    note: "Alışveriş tamamlandı."
+  },
+  {
+    text: "Temel ve Dursun yürüyüşe çıkmış.\nBir süre yürümüşler.\nSonra yorulmuşlar.\nOturmuşlar.\nDinlenince geri dönmüşler.",
+    note: "Yürüyüş."
+  },
+  {
+    text: "Temel bir gün yağmura yakalanmış.\nŞemsiyesini açmış.\nIslanmamış.",
+    note: "Ekipman doğru kullanıldı."
+  },
+  {
+    text: "Temel kahvaltıda yumurta yemiş.\nDursun “nasıl?” diye sormuş.\nTemel “yumurta gibi” demiş.",
+    note: "Yerinde değerlendirme."
+  },
+  {
+    text: "Temel uçağa binmiş. Hostes çay ister misiniz diye sormuş.\nTemel istemiş.\nÇayı içmiş.\nUçak inince uçaktan inmiş.",
+    note: "Uçuş tamamlandı."
+  },
+  {
+    text: "Temel bir gün Fadime’ye çiçek almış.\nFadime teşekkür etmiş.\nÇiçeği vazoya koymuş.\nÇiçek birkaç gün yaşamış.",
+    note: "Romantik ama sakin."
+  },
+  {
+    text: "Temel spor yapmaya başlamış.\nİlk gün yürüyüş yapmış.\nİkinci gün de yürüyüş yapmış.\nÜçüncü gün dinlenmiş.",
+    note: "Program sürdürülebilir."
+  },
+  {
+    text: "Temel bir kitap almış.\nİlk sayfasını okumuş.\nSonra ikinci sayfasını okumuş.\nKitap böyle devam ediyormuş.",
+    note: "Edebiyat."
+  },
+  {
+    text: "Temel kuaföre gitmiş.\n“Az kısalt” demiş.\nKuaför az kısaltmış.\nTemel memnun kalmış.",
+    note: "İletişim başarılı."
+  },
+  {
+    text: "Temel yolda yürürken Dursun’u görmüş.\nSelam vermiş.\nDursun da selam vermiş.\nİkisi farklı yönlere gitmiş.",
+    note: "Sosyal etkileşim."
+  },
+  {
+    text: "Temel marketten süt almış.\nEve gelmiş.\nSütün son kullanma tarihine bakmış.\nTarihi geçmemiş.\nSütü dolaba koymuş.",
+    note: "Bilinçli tüketici."
+  },
+  {
+    text: "Temel bir gün denize gitmiş.\nDenize girmiş.\nBiraz yüzmüş.\nSonra çıkıp havluyla kurulanmış.",
+    note: "Deniz aktivitesi."
+  },
+  {
+    text: "Temel vapura binmiş.\nManzaraya bakmış.\nMartı görmüş.\nVapur karşıya geçmiş.",
+    note: "Ulaşım ve doğa."
+  },
+  {
+    text: "Temel bilgisayarı açmış.\nŞifresini girmiş.\nŞifre doğruymuş.\nBilgisayar açılmış.",
+    note: "Giriş başarılı."
+  },
+  {
+    text: "Temel bir gün çok düşünmüş.\nSonra düşünmeyi bırakmış.\nÇay içmiş.",
+    note: "Zihinsel süreç."
+  }
+];
+
+function renderDailyJoke() {
+  const today = new Date();
+  const dateKey = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+  let hash = 0;
+  for (let i = 0; i < dateKey.length; i++) {
+    hash += dateKey.charCodeAt(i) * (i + 1);
+  }
+
+  const joke = dailyJokes[hash % dailyJokes.length];
+
+  document.getElementById('daily-joke-text').textContent = joke.text;
+  document.getElementById('daily-joke-note').textContent = joke.note;
+}
+
+renderDailyJoke();
 
   </script>
 </body>
