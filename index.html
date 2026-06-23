@@ -545,7 +545,45 @@
       .counters-grid { flex-wrap: wrap; }
       .count-item { min-width: 45%; border-right: none; border-bottom: 1px solid var(--rose-lt); }
       .count-item:last-child { border-bottom: none; }
+
+
     }
+
+/* ── GÜNÜN GÖREVİ ── */
+.daily-task-card {
+  background: white;
+  border: 1px solid var(--rose-lt);
+  border-radius: 6px;
+  padding: 1.4rem 1.5rem;
+  box-shadow: 2px 4px 18px rgba(42,26,32,0.05);
+}
+
+.daily-task-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rose-mid);
+  margin-bottom: 0.7rem;
+}
+
+.daily-task-text {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.daily-task-note {
+  margin-top: 0.9rem;
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+
+
+
   </style>
 </head>
 <body>
@@ -703,7 +741,16 @@
         <!-- Yeni şarkı eklemek için .track bloğunu kopyala -->
       </div>
     </div>
+    <!-- GÜNÜN GÖREVİ -->
+    <div class="block">
+      <p class="block-label">günün görevi</p>
 
+      <div class="daily-task-card">
+        <div class="daily-task-eyebrow">bugünkü görev</div>
+        <div class="daily-task-text" id="daily-task-text">—</div>
+        <div class="daily-task-note" id="daily-task-note">Bu görev sadece siteye giren güzel kızlara çıkar.</div>
+      </div>
+    </div>
     <!-- POLAROİD GRUP 4 — playlistten sonra son tek foto -->
     <div class="block" style="padding-top:3rem;padding-bottom:1rem;border-bottom:none;">
       <div class="pol-solo">
@@ -865,6 +912,86 @@
     }
 
     renderQuiz();
+
+    // ── GÜNÜN GÖREVİ ──
+    const dailyTasks = [
+  {
+    text: "Bugün galeriden rastgele bir fotoğraf seç ve bu fotoğrafın anısını yaz.",
+    note: "Deliller incelensin. Savunma sonra alınır."
+  },
+  {
+    text: "Bugün kendi ruh haline bir haber başlığı uydur.",
+    note: "Manşet sert olsun, olay büyük."
+  },
+  {
+    text: "Bugün ilişkinin resmi bakanlık açıklamasını yaz.",
+    note: "Ciddi bir kurum gibi davran. Saçma olması problem değil."
+  },
+  {
+    text: "Bugün kendine 3 kelimelik bir lakap koy.",
+    note: "Resmî unvan gibi düşün."
+  },
+  {
+    text: "Bugün en random anımıza 10 üzerinden puan ver.",
+    note: "Jüri sensin. İtiraz kabul edilmiyor."
+  },
+  {
+    text: "Bugün bir şarkıya bizim ilişkimiz için yeni bir isim ver.",
+    note: "Ne kadar alakalıysa o kadar iyi."
+  },
+  {
+    text: "Bugün kendi gününü film fragmanı gibi anlat.",
+    note: "Dram şart değil ama abartı serbest."
+  },
+  {
+    text: "Bugün ilişkinin resmi hava durumunu belirle.",
+    note: "Meteoroloji bu sorumluluğu reddediyor."
+  },
+  {
+    text: "Bugün bir fotoğrafımıza albüm kapağı ismi koy.",
+    note: "Grup dağılmadan önceki son albüm havası olabilir."
+  },
+  {
+    text: "Bugün aşkımız için saçma ama havalı bir slogan bul.",
+    note: "Marka toplantısı ciddiyetinde saçmala."
+  },
+  {
+    text: "Bugün kendini bir ülke ilan et ve bayrağını tarif et.",
+    note: "Sınırlar belirsiz, yönetim şekli tartışmalı."
+  },
+  {
+    text: "Bugün ilişkinin resmi para birimini belirle.",
+    note: "Enflasyon varsa sebebi belli."
+  },
+  {
+    text: "Bugün bir anımızı belgesel anlatıcısı gibi düşün.",
+    note: "Ses tonu ciddi, içerik saçma."
+  },
+  
+  {
+    text: "Bugün bir fotoğrafımıza mahkeme kararı ver.",
+    note: "Karar kısa, net ve gereksiz ciddi olsun."
+  }
+];
+    
+
+    function renderDailyTask() {
+      const today = new Date();
+      const dateKey = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+      let hash = 0;
+      for (let i = 0; i < dateKey.length; i++) {
+        hash += dateKey.charCodeAt(i);
+      }
+
+      const task = dailyTasks[hash % dailyTasks.length];
+
+      document.getElementById('daily-task-text').textContent = task.text;
+      document.getElementById('daily-task-note').textContent = task.note;
+    }
+
+    renderDailyTask();
+
   </script>
 </body>
 </html>
