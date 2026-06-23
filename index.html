@@ -581,6 +581,77 @@
   font-style: italic;
 }
 
+/* ── İTİRAF KUTUSU ── */
+.confession-card {
+  background: white;
+  border: 1px solid var(--rose-lt);
+  border-radius: 6px;
+  padding: 1.4rem 1.5rem;
+  box-shadow: 2px 4px 18px rgba(42,26,32,0.05);
+}
+
+.confession-intro {
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+.confession-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.confession-textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  border: 1px solid var(--rose-lt);
+  border-radius: 5px;
+  padding: 12px 14px;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.confession-textarea:focus {
+  border-color: var(--rose);
+  background: white;
+}
+
+.confession-btn {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 10px 24px;
+  border: 1px solid var(--rose);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--rose);
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.confession-btn:hover {
+  background: var(--rose);
+  color: white;
+}
+
+.confession-small {
+  margin-top: 0.9rem;
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
 
 
 
@@ -768,7 +839,37 @@
         <div id="quiz-inner"></div>
       </div>
     </div>
+<!-- İTİRAF KUTUSU -->
+<div class="block">
+  <p class="block-label">itiraf kutusu</p>
 
+  <div class="confession-card">
+    <div class="confession-intro">
+      Söylemek isteyip çekindiğin bir şey varsa buraya bırakabilirsin. (herhangi itiraf etmek istediğin bişey)
+    </div>
+
+    <form name="itiraf-kutusu" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="confession-form">
+      <input type="hidden" name="form-name" value="itiraf-kutusu" />
+
+      <p style="display:none;">
+        <label>Boş bırak: <input name="bot-field" /></label>
+      </p>
+
+      <textarea
+        class="confession-textarea"
+        name="itiraf"
+        placeholder="Buraya yaz..."
+        required
+      ></textarea>
+
+      <button type="submit" class="confession-btn">gönder</button>
+    </form>
+
+    <div class="confession-small">
+      Yazdığın şey burada görünmez. Sadece ben görürüm.
+    </div>
+  </div>
+</div>
   </div>
 
   <!-- FOOTER -->
